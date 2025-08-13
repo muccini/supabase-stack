@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   # PostgreSQL com Vector
   postgres:
@@ -27,8 +29,8 @@ services:
       LOGFLARE_API_KEY: ${LOGFLARE_API_KEY}
       LOGFLARE_URL: http://analytics:4000
       NEXT_PUBLIC_ENABLE_LOGS: true
-    ports:
-      - "3000:3000"
+    expose:
+      - "3000"
     depends_on:
       kong:
         condition: service_healthy
@@ -41,8 +43,8 @@ services:
       KONG_DECLARATIVE_CONFIG: /var/lib/kong/kong.yml
       KONG_DNS_ORDER: LAST,A,CNAME
       KONG_PLUGINS: request-transformer,cors,key-auth,acl,basic-auth
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     volumes:
       - ./kong.yml:/var/lib/kong/kong.yml:ro
     depends_on:
